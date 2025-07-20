@@ -130,3 +130,14 @@ WebSocket service:
 
 Together these functions allow services and web clients to communicate in real
 time while enforcing permissions and handling many connections.
+
+## Example Inbox Chat
+
+An example chat server using the library is provided in `examples/inbox-chat`. It creates a `subscriber` for each connection and subscribes that client to the inbox ID extracted from the WebSocket URL.
+Start the server:
+
+```bash
+php examples/inbox-chat/server.php
+```
+
+Open `examples/inbox-chat/index.html` in a browser to connect. Clients specify an inbox ID in the WebSocket URL. Messages are only echoed to other clients connected with the same inbox ID.

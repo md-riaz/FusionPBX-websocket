@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Inbox Chat Demo</title>
+</head>
+<body>
+<label>Inbox ID: <input id="inbox" value="room1"></label>
+<button id="connect">Connect</button>
+<div id="status"></div>
+<textarea id="out" cols="80" rows="10" readonly></textarea><br>
+<input id="msg" size="60"><button id="send">Send</button>
+<script>
+let ws;
+const out = document.getElementById('out');
+document.getElementById('connect').onclick = () => {
+  const inbox = document.getElementById('inbox').value;
+  ws = new WebSocket(`ws://localhost:8080/?inbox=${encodeURIComponent(inbox)}`);
+  ws.onopen = () => document.getElementById('status').innerText = 'connected';
+  ws.onmessage = e => { out.value += e.data + '\n'; };
+  ws.onclose = () => document.getElementById('status').innerText = 'closed';
+};
+document.getElementById('send').onclick = () => {
+  if(ws && ws.readyState === WebSocket.OPEN) ws.send(document.getElementById('msg').value);
+};
+</script>
+</body>
+</html>
